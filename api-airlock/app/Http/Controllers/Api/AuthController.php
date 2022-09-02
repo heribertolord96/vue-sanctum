@@ -136,4 +136,11 @@ class AuthController extends Controller
 
         return $this->loggedOut($request) ?: redirect('/');
     }
+
+
+    public function getUser()
+    {
+        return Auth::user();
+        return response()->json(Auth::user());
+    }
 }

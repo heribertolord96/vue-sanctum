@@ -1,25 +1,19 @@
 <template>
-  <div class="about">
-    <!-- <button @click="me()">Me</button> -->
-
-    <div v-if="user">
-      <!-- <button @click="logout()">Log out</button> -->
-      <!-- <h1>Usuartio actual : {{ user.email }}</h1> -->
-    </div>
-    <!-- <pre>{{ user }}</pre> -->
-    <form action="" @submit.prevent="login" v-else>
-      <input type="email" v-model="form.email" placeholder="email" />
-      <input type="password" v-model="form.password" placeholder="password" />
-      <br />
-      <button>Login</button>
-    </form>
-  </div>
-  <div></div>
+  <form action="" @submit.prevent="login">
+    <input type="email" v-model="form.email" placeholder="email" />
+    <input type="password" v-model="form.password" placeholder="password" />
+    <br />
+    <button>Login</button>
+  </form>
 </template>
 <script>
+import axios from "axios";
+console.log(import.meta.env);
+// let env = import.meta.env;
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.VITE_API_URL; //"localhost";
 export default {
   data: () => ({
-    // user: null,
     form: {
       email: "jl@gmail.com",
       password: "password",
@@ -27,19 +21,10 @@ export default {
   }),
 
   methods: {
-    /*     logout() {
-      axios.post("/logout").then(() => {
-        this.user = null;
-        console.log("exit");
-      });
-      console.log("Enviando login", this.form);
-    }, */
     async login() {
       await this.$store.dispatch("login", this.form);
+      return $this.$router.replace("/");
     },
-    /*  me() {
-      
-    }, */
   },
 };
 </script>

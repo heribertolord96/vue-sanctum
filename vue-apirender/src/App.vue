@@ -1,25 +1,42 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from "vue-router";
+import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
+    <div class="wrapper" id="app">
       <HelloWorld msg="You did it!" />
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
+
+        <template v-if="$store.state.auth">
+          <span>{{ $store.state.user.name }} </span> |
+          <button>Log out</button>
+        </template>
+        <template v-else>
+          <RouterLink to="/login">Login</RouterLink>
+        </template>
       </nav>
     </div>
   </header>
 
   <RouterView />
 </template>
+
+<script>
+export default {
+  methods: {
+    async logout() {
+      await this.$store.dispatch("logout");
+      return this.$router.replace("/login");
+    },
+  },
+};
+</script>
 
 <style scoped>
 header {
